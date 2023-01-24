@@ -57,7 +57,7 @@ function App() {
     const s = "r_fighter=" + fighter1 + "&b_fighter=" + fighter2;
     s.split(" ").join("+");
 
-    fetch("http://locahost:8000/get/odds/?" + s)
+    fetch("http://localhost:8000/get/odds/?" + s)
       .then((res) => res.json())
       .then(
         (data) => {
