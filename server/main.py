@@ -1,40 +1,48 @@
-from flask import Flask, jsonify, request
-from flask_cors import CORS, cross_origin
-#from matplotlib import collections
-import pandas as pd
-import numpy as np
+from typing import Union
+from fastapi import FastAPI, Request
+from fastapi.middleware.cors import CORSMiddleware
+import csv
 
-app = Flask(__name__)
-CORS(app)
+app = FastAPI()
+origins = [
+    "*"
+]
 
-@app.route("/")
-def main():
-  return "App is running"
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-@app.route("/get/all_fighter_names")
-def get_fighters():
-  data = pd.read_csv("data/raw_fighter_details.csv")
-  df = pd.DataFrame(data)['fighter_name']
-  fighters= df.to_list()
-  return jsonify(fighters)
+@app.get('/')
+def read_root():
+  return {"API is" : "working!"}
 
-@app.route("/get/ranked_fighter_names")
-# I should send all of these from what's in "input"
-@cross_origin()
-def get_ranked_fighters():
-  data = pd.read_csv("data/ufc_master_data.csv")
-  df = pd.DataFrame(data, columns=['ranking', 'name'])
+# Examle: http://127.0.0.1:8000/get/all_fighters
+@app.get('/get/all_fighters')
+def get_all_fighters():
+  with open('data/all_fighters.csv', newline='') as csvfile:
+    fighter_list = csv.reader(csvfile, delimiter=',',
+                              quoting=csv.QUOTE_ALL, )
+    fighter_list = list(fighter_list)[0]
+  return fighter_list
 
-  ranked_rows = df.loc[~df['ranking'].isna()]
-  ranked_names = sorted(ranked_rows['name'].to_list())
-
-  return jsonify(ranked_names)
-
-@app.route("/post/calculate_odds", methods=["POST"])
-def calculate_odds():
-  fighter1, fighter2 = request.json['fighter1'], request.json['fighter2']
-
-  print(fighter1, fighter2)
-  odds = 0
-  #Calculate the odds here
-  return "None"
+# Example Query: http://127.0.0.1:8000/get/odds/?r_fighter=Alexander+Hernandez&b_fighter=Casey+Kenney
+@app.get('/get/odds/')
+def get_odds(r_fighter: str, b_fighter: str, request=Request):
+  r = request.body
+  with open('data/all_combinations.csv', newline='') as csvfile:
+    reader = csv.DictReader(csvfile)
+    for row in reader:
+      if row['R_fighter'] == r_fighter and row['B_fighter'] == b_fighter:
+        pred = row['prediction'].strip("[]").split(" ")
+        print(pred)
+        if pred[0] > pred[1]:
+          return {r_fighter: pred[0]}
+        else:
+          return {b_fighter: pred[1]}
+  return {"error": "This prediction currently hasn't been calculated!",
+  "Try" : r_fighter + "in Blue Corner and " + b_fighter + "in Red Corner"
+  }
