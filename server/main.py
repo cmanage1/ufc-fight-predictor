@@ -3,6 +3,7 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 import csv
+import os
 
 app = FastAPI()
 
@@ -21,8 +22,6 @@ app.add_middleware(
 @app.get('/')
 def read_root():
   return {"API is" : "working!"}
-
-app.mount("/static", StaticFiles(directory="build"), name="build")
 
 # Examle: http://127.0.0.1:8000/get/all_fighters
 @app.get('/get/all_fighters')
@@ -50,3 +49,5 @@ def get_odds(r_fighter: str, b_fighter: str, request=Request):
   return {"error": "This prediction currently hasn't been calculated!",
   "Try" : r_fighter + "in Blue Corner and " + b_fighter + "in Red Corner instead"
   }
+
+app.mount("/static", StaticFiles(directory="build", html=True), name="static")
