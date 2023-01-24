@@ -1,9 +1,12 @@
 from typing import Union
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 import csv
+import os
 
 app = FastAPI()
+
 origins = [
     "*"
 ]
@@ -44,5 +47,7 @@ def get_odds(r_fighter: str, b_fighter: str, request=Request):
         else:
           return {b_fighter: pred[1]}
   return {"error": "This prediction currently hasn't been calculated!",
-  "Try" : r_fighter + "in Blue Corner and " + b_fighter + "in Red Corner"
+  "Try" : r_fighter + "in Blue Corner and " + b_fighter + "in Red Corner instead"
   }
+
+app.mount("/static", StaticFiles(directory="build", html=True), name="static")
