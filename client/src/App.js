@@ -39,7 +39,7 @@ function App() {
       mode: "cors",
     };
 
-    fetch("get/all_fighters", options)
+    fetch("../get/all_fighters", options)
       .then((res) => res.json())
       .then(
         (data) => {
@@ -57,7 +57,7 @@ function App() {
     const s = "r_fighter=" + fighter1 + "&b_fighter=" + fighter2;
     s.split(" ").join("+");
 
-    fetch("/get/odds/?" + s)
+    fetch("../get/odds/?" + s)
       .then((res) => res.json())
       .then(
         (data) => {
@@ -170,7 +170,9 @@ function App() {
           </Box>
         </Paper>
         <Box>
-          <Link href="#">Source Code</Link>
+          <Link href="https://github.com/cmanage1/ufc-fight-predictor">
+            Source Code
+          </Link>
         </Box>
       </div>
     );
