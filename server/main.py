@@ -6,8 +6,6 @@ import csv
 
 app = FastAPI()
 
-app.mount("/static", StaticFiles(directory="build"), name="build")
-
 origins = [
     "*"
 ]
@@ -23,6 +21,8 @@ app.add_middleware(
 @app.get('/')
 def read_root():
   return {"API is" : "working!"}
+
+app.mount("/static", StaticFiles(directory="build"), name="build")
 
 # Examle: http://127.0.0.1:8000/get/all_fighters
 @app.get('/get/all_fighters')
@@ -48,5 +48,5 @@ def get_odds(r_fighter: str, b_fighter: str, request=Request):
         else:
           return {b_fighter: pred[1]}
   return {"error": "This prediction currently hasn't been calculated!",
-  "Try" : r_fighter + "in Blue Corner and " + b_fighter + "in Red Corner"
+  "Try" : r_fighter + "in Blue Corner and " + b_fighter + "in Red Corner instead"
   }

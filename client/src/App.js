@@ -39,7 +39,7 @@ function App() {
       mode: "cors",
     };
 
-    fetch("http://127.0.0.1:8000/get/all_fighters", options)
+    fetch("http://localhost:8000/get/all_fighters", options)
       .then((res) => res.json())
       .then(
         (data) => {
@@ -57,7 +57,7 @@ function App() {
     const s = "r_fighter=" + fighter1 + "&b_fighter=" + fighter2;
     s.split(" ").join("+");
 
-    fetch("http://127.0.0.1:8000/get/odds/?" + s)
+    fetch("http://localhost:8000/get/odds/?" + s)
       .then((res) => res.json())
       .then(
         (data) => {
