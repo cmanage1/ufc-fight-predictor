@@ -44,11 +44,11 @@ def get_odds(r_fighter: str, b_fighter: str, request=Request):
         pred = row['prediction'].strip("[]").split(" ")
         print(pred)
         if pred[0] > pred[1]:
-          return {r_fighter: pred[0]}
+          return [r_fighter, pred[0]]
         else:
-          return {b_fighter: pred[1]}
-  return {"error": "This prediction currently hasn't been calculated!",
-  "Try" : r_fighter + "in Blue Corner and " + b_fighter + "in Red Corner instead"
-  }
+          return [b_fighter, pred[1]]
+  return ["Error!", "This prediction currently hasn't been calculated.",
+  "Try", r_fighter + " in the Blue Corner and " + b_fighter + " in the Red Corner instead."
+  ]
 
 app.mount("/static", StaticFiles(directory="build", html=True), name="static")
