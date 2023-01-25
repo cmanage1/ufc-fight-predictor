@@ -30,6 +30,7 @@ def get_all_fighters():
     fighter_list = csv.reader(csvfile, delimiter=',',
                               quoting=csv.QUOTE_ALL, )
     fighter_list = list(fighter_list)[0]
+  fighter_list.sort()
   return fighter_list
 
 # Example Query: http://127.0.0.1:8000/get/odds/?r_fighter=Alexander+Hernandez&b_fighter=Casey+Kenney

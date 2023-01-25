@@ -26,7 +26,6 @@ Machine Learning:
 ```
 npm install
 npm run buildncopy
-
 ```
 
 2. Navigate to server side using ```cd ../server/``` and run:

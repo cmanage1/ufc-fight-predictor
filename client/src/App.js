@@ -12,6 +12,7 @@ import {
   Typography,
 } from "@mui/material";
 import Link from "@mui/material/Link";
+import GitHubIcon from "@mui/icons-material/GitHub";
 
 function App() {
   const [fightersList, setFightersList] = useState([]);
@@ -39,7 +40,7 @@ function App() {
       mode: "cors",
     };
 
-    fetch("../get/all_fighters", options)
+    fetch("http://127.0.0.1:8000/get/all_fighters", options)
       .then((res) => res.json())
       .then(
         (data) => {
@@ -57,7 +58,7 @@ function App() {
     const s = "r_fighter=" + fighter1 + "&b_fighter=" + fighter2;
     s.split(" ").join("+");
 
-    fetch("../get/odds/?" + s)
+    fetch("http://127.0.0.1:8000/get/odds/?" + s)
       .then((res) => res.json())
       .then(
         (data) => {
@@ -73,7 +74,6 @@ function App() {
         }
       );
   };
-
   if (error) {
     return <div> Error: {error.message}</div>;
   } else if (!loaded) {
@@ -82,98 +82,128 @@ function App() {
     return (
       <div className="App">
         <Paper>
-          <Box sx={{ flexGrow: 1, padding: "20px" }}>
-            <Grid container spacing={2}>
-              <Grid item xs={4}>
-                <Box>
-                  <Typography variant="subtitle1">Red Corner</Typography>
-                  <FormControl fullWidth>
-                    <InputLabel id="demo-simple-select-label">
-                      Fighter 1
-                    </InputLabel>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      value={fighter1}
-                      label="Fighter 2"
-                      onChange={handleChange1}
-                      MenuProps={{
-                        maxheight: "10px",
-                      }}
-                    >
-                      {fightersList.map((fighter, i) => {
-                        return (
-                          <MenuItem value={fighter} key={i}>
-                            {fighter}
-                          </MenuItem>
-                        );
-                      })}
-                    </Select>
-                  </FormControl>
-                </Box>
-              </Grid>
+          <Paper>
+            <Box sx={{ flexGrow: 1, padding: "20px" }} textAlign="center">
+              <Typography variant="h2">UFC Fight Predictor</Typography>
+            </Box>
 
-              <Grid item xs={4}>
-                <Box textAlign="center">
-                  <Button
-                    variant="contained"
-                    disabled={!fighter1 || !fighter2}
-                    onClick={calculateOdds}
-                  >
-                    See odds
-                  </Button>
-                  {calculated ? (
-                    <div className="odds">Prediction :{odds}</div>
-                  ) : (
-                    ""
-                  )}
-                </Box>
-              </Grid>
+            <Box sx={{ flexGrow: 1, padding: "20px" }}>
+              <Grid container spacing={2}>
+                <Grid item xs={4}>
+                  <Box>
+                    <Box textAlign="center">
+                      <Typography variant="subtitle1">Red Corner</Typography>
+                    </Box>
+                    <FormControl fullWidth>
+                      <InputLabel id="demo-simple-select-label">
+                        Fighter 1
+                      </InputLabel>
+                      <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={fighter1}
+                        label="Fighter 2"
+                        onChange={handleChange1}
+                        MenuProps={{
+                          maxheight: "10px",
+                        }}
+                      >
+                        {fightersList.map((fighter, i) => {
+                          return (
+                            <MenuItem value={fighter} key={i}>
+                              {fighter}
+                            </MenuItem>
+                          );
+                        })}
+                      </Select>
+                    </FormControl>
+                  </Box>
+                </Grid>
 
-              <Grid item xs={4}>
-                <Box>
-                  <Typography variant="subtitle1">Blue Corner</Typography>
-                  <FormControl fullWidth>
-                    <InputLabel id="demo-simple-select-label">
-                      Fighter 2
-                    </InputLabel>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      value={fighter2}
-                      label="Figher 2"
-                      onChange={handleChange2}
-                      MenuProps={{
-                        maxheight: "10px",
-                      }}
+                <Grid item xs={4}>
+                  <Box textAlign="center">
+                    <Button
+                      variant="contained"
+                      disabled={!fighter1 || !fighter2}
+                      onClick={calculateOdds}
                     >
-                      {fightersList.map((fighter, i) => {
-                        return (
-                          <MenuItem value={fighter} key={i}>
-                            {fighter}
-                          </MenuItem>
-                        );
-                      })}
-                    </Select>
-                  </FormControl>
-                </Box>
+                      See odds
+                    </Button>
+                  </Box>
+                </Grid>
+
+                <Grid item xs={4}>
+                  <Box>
+                    <Box textAlign="center">
+                      <Typography variant="subtitle1">Blue Corner</Typography>
+                    </Box>
+                    <FormControl fullWidth>
+                      <InputLabel id="demo-simple-select-label">
+                        Fighter 2
+                      </InputLabel>
+                      <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={fighter2}
+                        label="Figher 2"
+                        onChange={handleChange2}
+                        MenuProps={{
+                          maxheight: "10px",
+                        }}
+                      >
+                        {fightersList.map((fighter, i) => {
+                          return (
+                            <MenuItem value={fighter} key={i}>
+                              {fighter}
+                            </MenuItem>
+                          );
+                        })}
+                      </Select>
+                    </FormControl>
+                  </Box>
+                </Grid>
               </Grid>
-            </Grid>
-          </Box>
-          <Box>
-            <Typography variant="body">
-              Odds looking "odd"? <br></br>
-              <br></br>
-              Remember that Red Corner is the defending champion (or the higher
-              rank fighter) and blue is the challenger. Try switching sides
-            </Typography>
-          </Box>
+            </Box>
+          </Paper>
+
+          {calculated ? (
+            <Box sx={{ flexGrow: 1, padding: "20px" }} textAlign="center">
+              <div className="odds">Prediction :{odds}</div>
+            </Box>
+          ) : (
+            ""
+          )}
+
+          <Paper
+            sx={{
+              marginTop: "calc(10% + 60px)",
+              width: "100%",
+              position: "fixed",
+              bottom: 0,
+            }}
+          >
+            <Box sx={{ flexGrow: 1, padding: "20px" }} textAlign="center">
+              <Typography variant="body">
+                Odds looking "odd"? <br></br>
+                <br></br>
+                Remember that Red Corner is the defending champion (or the
+                higher rank fighter) and blue is the challenger. Try switching
+                sides
+              </Typography>
+            </Box>
+            <Box
+              sx={{ flexGrow: 1, padding: "20px", paddingTop: "5px" }}
+              textAlign="center"
+            >
+              <Link
+                href="https://github.com/cmanage1/ufc-fight-predictor"
+                target="__blank"
+              >
+                <GitHubIcon />
+              </Link>
+            </Box>
+          </Paper>
         </Paper>
-        <Box>
-          <Link href="https://github.com/cmanage1/ufc-fight-predictor">
-            Source Code
-          </Link>
-        </Box>
       </div>
     );
   }
