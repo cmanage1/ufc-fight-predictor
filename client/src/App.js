@@ -64,8 +64,7 @@ function App() {
         (data) => {
           setLoaded(true);
           setCalculated(true);
-          console.log(data);
-          data = JSON.stringify(data);
+          //data = JSON.stringify(data);
           setOdds(data);
         },
         (error) => {
@@ -168,7 +167,13 @@ function App() {
 
           {calculated ? (
             <Box sx={{ flexGrow: 1, padding: "20px" }} textAlign="center">
-              <div className="odds">Prediction :{odds}</div>
+              <div className="odds">
+                Prediction : <br></br>
+                <br></br>
+                {odds.map((line) => {
+                  return <Typography variant="body">{line + " "}</Typography>;
+                })}
+              </div>
             </Box>
           ) : (
             ""
