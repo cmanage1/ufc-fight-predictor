@@ -12,7 +12,7 @@ import {
   Typography,
 } from "@mui/material";
 import Link from "@mui/material/Link";
-import GitHubIcon from '@mui/icons-material/GitHub';
+import GitHubIcon from "@mui/icons-material/GitHub";
 
 function App() {
   const [fightersList, setFightersList] = useState([]);
@@ -84,9 +84,7 @@ function App() {
         <Paper>
           <Paper>
             <Box sx={{ flexGrow: 1, padding: "20px" }} textAlign="center">
-              <Typography variant="h2">
-                UFC Fight Predictor
-              </Typography>
+              <Typography variant="h2">UFC Fight Predictor</Typography>
             </Box>
 
             <Box sx={{ flexGrow: 1, padding: "20px" }}>
@@ -167,39 +165,45 @@ function App() {
               </Grid>
             </Box>
           </Paper>
-        
-        {calculated ? (
-          <Box sx={{ flexGrow: 1, padding: "20px" }} textAlign="center">
-             <div className="odds">Prediction :{odds}</div>      
-          </Box>
-          )
-          : (
-          ""
-        )}
+
+          {calculated ? (
+            <Box sx={{ flexGrow: 1, padding: "20px" }} textAlign="center">
+              <div className="odds">Prediction :{odds}</div>
+            </Box>
+          ) : (
+            ""
+          )}
 
           <Paper
-            sx={{marginTop: 'calc(10% + 60px)',
-              width: '100%',
-              position: 'fixed',
+            sx={{
+              marginTop: "calc(10% + 60px)",
+              width: "100%",
+              position: "fixed",
               bottom: 0,
-            }} >
+            }}
+          >
             <Box sx={{ flexGrow: 1, padding: "20px" }} textAlign="center">
               <Typography variant="body">
                 Odds looking "odd"? <br></br>
                 <br></br>
-                Remember that Red Corner is the defending champion (or the higher
-                rank fighter) and blue is the challenger. Try switching sides
+                Remember that Red Corner is the defending champion (or the
+                higher rank fighter) and blue is the challenger. Try switching
+                sides
               </Typography>
             </Box>
-            <Box sx={{ flexGrow: 1, padding: "20px", paddingTop: "5px" }} textAlign="center">
-               <Link href="https://github.com/cmanage1/ufc-fight-predictor" target="__blank">
-                <GitHubIcon/>
+            <Box
+              sx={{ flexGrow: 1, padding: "20px", paddingTop: "5px" }}
+              textAlign="center"
+            >
+              <Link
+                href="https://github.com/cmanage1/ufc-fight-predictor"
+                target="__blank"
+              >
+                <GitHubIcon />
               </Link>
             </Box>
           </Paper>
-          
         </Paper>
-        
       </div>
     );
   }
