@@ -1,7 +1,11 @@
 # UFC Fight Predictor
 
 ## Live Demos
-- Full Stack app using [Heroku](https://ufc-fight-predictor.herokuapp.com/static/)
+
+![ezgif-2-4611aecb90](https://user-images.githubusercontent.com/55030581/215596284-6a93e9f8-0453-4dbd-bcdf-3cfe1ae5c11b.gif)
+
+
+- Full Stack app using [Heroku](https://ufc-fight-predictor.herokuapp.com/static/) (deployed upon request)
 - Jupyter notebook using [Google Colab](https://colab.research.google.com/drive/17iKQNxBbhu-wyfHT3-4jyK4RL7kIiuQH?usp=sharing)
 
 ## Tools and Technologies
